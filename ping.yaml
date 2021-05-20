@@ -1,0 +1,22 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: ping-upstream
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+    spec:
+      containers:
+      - image: gcr.io/bee-dev-974/grpc-ping@sha256:17d5859d5f65cc21d943fdee17a7159a025ded3744effb1ec75a87da0b2f2dd1
+        ports:
+          - containerPort: 8080
+            name: h2c
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
