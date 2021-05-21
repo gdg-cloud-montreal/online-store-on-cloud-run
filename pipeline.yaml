@@ -1,3 +1,9 @@
+resources:
+ - name: google-sdk
+   type: image 
+   config
+
+
 pipelines:
   - name: cloud_run_deploy
     configuration:
@@ -15,6 +21,6 @@ pipelines:
           - name: gcpsa
       execution:
         onExecute:
-        - gcloud config set project swampup2021 && gcloud auth activate-service-account  jfrog-sa@swampup2021.iam.gserviceaccount.com --key-file=int_gcpsa_jsonKey
+        - gcloud config list
 
 
