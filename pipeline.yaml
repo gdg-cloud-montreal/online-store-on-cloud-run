@@ -13,9 +13,10 @@ pipelines:
       type: Bash
       configuration:
         integrations:
-          - name: gcpsa
+          - name: gcp_login
       execution:
         onExecute:
-        - gcloud config list
+        - gcloud config set project int_gcp_login_project
+        - gcloud auth activate-service-account int_gcp_login_user --key-file int_gcp_login_jsonkey
 
 
