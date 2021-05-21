@@ -13,7 +13,6 @@ pipelines:
       configuration:
         integrations:
           - name: gcp_login
-          - name: container_repo
       execution:
         onExecute:
         - echo $int_gcp_login_jsonkey > /tmp/json.key
