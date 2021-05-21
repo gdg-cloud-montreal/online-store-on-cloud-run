@@ -27,7 +27,7 @@ pipelines:
         affinityGroup: fmkGroup
         dockerFileLocation: src/frontend
         dockerFileName: Dockerfile
-        dockerImageName: ${int_server_name_value}.jfrog.io/boutique/frontend
+        dockerImageName: ${int_server_name_value}.jfrog.io/docker-local/boutique/frontend
         dockerImageTag: ${run_number}
         dockerOptions: --build-arg SERVER_NAME=${int_server_name_value}
         integrations:        
@@ -39,7 +39,7 @@ pipelines:
       type: DockerPush
       configuration:
         affinityGroup: fmkGroup
-        targetRepository: boutique
+        targetRepository: docker-local/boutique
         autoPublishBuildInfo: true
         integrations:
           - name: artifactory
