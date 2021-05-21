@@ -66,24 +66,53 @@ pipelines:
               tag: "latest"
         integrations:
           - name: gcp_login
-          - name: knativeService
           - name: server_name
       execution:
         onExecute:
         - echo $int_gcp_login_jsonkey > /tmp/json.key
-        - echo $int_knativeService_service > /tmp/knativeService.yaml
+        - |
+          cat << EOF > /tmp/frontendservice.yaml
+          apiVersion: serving.knative.dev/v1
+          kind: Service
+          metadata:
+            name: frontend
+          spec:
+            template:
+              metadata:
+                annotations:
+                  autoscaling.knative.dev/minScale: "1"
+              spec:
+                containers:
+                - image:  ${int_server_name_value}.jfrog.io/boutique/frontend:${run_number}
+                  # ports:
+                  #   - containerPort: 8080
+                  #     name: h2c
+                  env:
+                    - name: PRODUCT_CATALOG_SERVICE_ADDR
+                      value: "productcatalogservice.cloud-run-sandbox.svc.cluster.local:80"
+                    - name: CURRENCY_SERVICE_ADDR
+                      value: "currencyservice.cloud-run-sandbox.svc.cluster.local:80"
+                    - name: CART_SERVICE_ADDR
+                      value: "cartservice.cloud-run-sandbox.svc.cluster.local:80"
+                    - name: RECOMMENDATION_SERVICE_ADDR
+                      value: "recommendationservice.cloud-run-sandbox.svc.cluster.local:80"
+                    - name: SHIPPING_SERVICE_ADDR
+                      value: "shippingservice.cloud-run-sandbox.svc.cluster.local:80"
+                    - name: CHECKOUT_SERVICE_ADDR
+                      value: "checkoutservice.cloud-run-sandbox.svc.cluster.local:80"
+                    - name: AD_SERVICE_ADDR
+                      value: "adservice.cloud-run-sandbox.svc.cluster.local:80"
+                  resources:
+                    requests:
+                      cpu: 100m
+                      memory: 64Mi
+                    limits:
+                      cpu: 200m
+                      memory: 128Mi
+          EOF
         - gcloud auth activate-service-account $int_gcp_login_user --key-file /tmp/json.key
         - | 
-          gcloud run deploy shop-frontend \
-          --image  ${int_server_name_value}.jfrog.io/boutique/frontend:${run_number} \
+          gcloud run services replace /tmp/frontendservice.yaml \
           --cluster cluster-1 --namespace cloud-run-sandbox --cluster-location us-central1-c \
           --platform gke --project $int_gcp_login_project \
-          --set-env-vars "PRODUCT_CATALOG_SERVICE_ADDR=productcatalogservice.cloud-run-sandbox.svc.cluster.local:80" \
-          --set-env-vars "CURRENCY_SERVICE_ADDR=currencyservice.cloud-run-sandbox.svc.cluster.local:80" \
-          --set-env-vars "CART_SERVICE_ADDR=cartservice.cloud-run-sandbox.svc.cluster.local:80" \
-          --set-env-vars "RECOMMENDATION_SERVICE_ADDR=recommendationservice.cloud-run-sandbox.svc.cluster.local:80" \
-          --set-env-vars "SHIPPING_SERVICE_ADDR=shippingservice.cloud-run-sandbox.svc.cluster.local:80" \
-          --set-env-vars "CHECKOUT_SERVICE_ADDR=checkoutservice.cloud-run-sandbox.svc.cluster.local:80" \
-          --set-env-vars "AD_SERVICE_ADDR=adservice.cloud-run-sandbox.svc.cluster.local:80"
-
-        
+         
