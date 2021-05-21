@@ -49,13 +49,6 @@ pipelines:
           - name: build_frontend_docker
         outputResources:
           - name: docker_frontend_build_info
-    - name: publish_frontend_build
-      type: PublishBuildInfo
-      configuration:
-        inputSteps:
-          - name: push_frontend_docker
-        outputResources:
-          - name: docker_frontend_build_info
     - name: xray_scan_frontend_docker
       type: XrayScan
       configuration:
@@ -66,14 +59,6 @@ pipelines:
         inputResources:
           - name: docker_frontend_build_info
             trigger: false
-    - name: promote_dbp_build
-      type: PromoteBuild
-      configuration:
-        targetRepository: swampup2020/boutique
-        integrations:
-          - name: artifactory
-        inputResources:
-          - name: docker_frontend_build_info
     - name: gcloud_deploy_frontend
       type: Bash
       configuration:
