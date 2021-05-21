@@ -1,8 +1,3 @@
-resources:
- - name: google-sdk
-   type: image 
-   config
-
 
 pipelines:
   - name: cloud_run_deploy
