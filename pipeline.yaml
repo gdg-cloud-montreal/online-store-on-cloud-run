@@ -16,7 +16,7 @@ pipelines:
           - name: gcp_login
       execution:
         onExecute:
-        - gcloud config set project int_gcp_login_project
-        - gcloud auth activate-service-account int_gcp_login_user --key-file int_gcp_login_jsonkey
+        - gcloud config set project $int_gcp_login_project
+        - gcloud auth activate-service-account $int_gcp_login_user --key-file $int_gcp_login_jsonkey
 
 
