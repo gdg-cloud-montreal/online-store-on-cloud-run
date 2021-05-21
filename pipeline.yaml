@@ -32,7 +32,7 @@ pipelines:
       type: DockerPush
       configuration:
         affinityGroup: fmkGroup
-        targetRepository: swampup2020/boutique
+        targetRepository: swampup2020
         autoPublishBuildInfo: true
         integrations:
           - name: artifactory
@@ -56,6 +56,8 @@ pipelines:
         affinityGroup: fmkGroup
         inputSteps:
           - name:  xray_scan_frontend_docker
+        inputResources:
+          - name: docker_frontend_build_info
         runtime:
           type: image
           image:
@@ -72,6 +74,6 @@ pipelines:
         - gcloud auth activate-service-account $int_gcp_login_user --key-file /tmp/json.key
         - | 
           gcloud run deploy bank-frontend \
-          --image artifactoryanthosdemo-swampup2020.jfrog.io/anthos-bank/frontend:aa936d92 \
+          --image  ${int_server_name_value}.jfrog.io/swampup2020/boutique/frontend:$run_number\
           --cluster cluster-1 --cluster-location us-central1-c \
           --platform gke --project $int_gcp_login_project
