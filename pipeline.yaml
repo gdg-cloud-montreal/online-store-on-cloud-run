@@ -67,6 +67,7 @@ pipelines:
         integrations:
           - name: gcp_login
           - name: knativeService
+          - name: server_name
       execution:
         onExecute:
         - echo $int_gcp_login_jsonkey > /tmp/json.key
