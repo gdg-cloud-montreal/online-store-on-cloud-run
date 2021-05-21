@@ -55,7 +55,7 @@ pipelines:
         inputSteps:
           - name: push_frontend_docker
         outputResources:
-          - name: dbp_build_info
+          - name: docker_frontend_build_info
     - name: xray_scan_frontend_docker
       type: XrayScan
       configuration:
@@ -73,9 +73,7 @@ pipelines:
         integrations:
           - name: artifactory
         inputResources:
-          - name: dbp_build_info
-        outputResources:
-          - name: dbp_promoted_build_info
+          - name: docker_frontend_build_info
     - name: gcloud_deploy_frontend
       type: Bash
       configuration:
