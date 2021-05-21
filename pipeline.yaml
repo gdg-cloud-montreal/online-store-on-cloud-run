@@ -32,7 +32,6 @@ pipelines:
         dockerOptions: --build-arg SERVER_NAME=${int_server_name_value}
         integrations:        
           - name: artifactory
-          - name: docker
           - name: server_name
         inputResources:
           - name: source_code
@@ -43,7 +42,7 @@ pipelines:
         targetRepository: docker_local/boutique
         autoPublishBuildInfo: true
         integrations:
-          - name: docker
+          - name: artifactory
         inputSteps:
           - name: build_frontend_docker
         outputResources:
