@@ -1,21 +1,65 @@
-pipelines:
-  - name: cloud_run_deploy
+resources:
+  - name: source_code
+    type: GitRepo
     configuration:
-      runtime:
-        type: image
-        image:
-          custom:
-            name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
-            tag: "latest"
+      gitProvider: github
+      path: GoogleCloudPlatform/microservices-demo
+pipelines:
+  - name: build_and_deploy_cloudrun
     steps:
+    - name: build_frontend_docker
+      type: DockerBuild
+      configuration:
+        affinityGroup: fmkGroup
+        dockerFileLocation: src/frontend
+        dockerFileName: Dockerfile
+        dockerImageName: ${int_server_name_value}.jfrog.io/
+        dockerImageTag: ${run_number}
+        dockerOptions: --build-arg SERVER_NAME=${int_server_name_value}
+        integrations:        
+          - name: artifactory
+          - name: docker
+          - name: server_name
+        inputResources:
+          - name: source_code
+    - name: push_frontend_docker
+      type: DockerPush
+      configuration:
+        affinityGroup: fmkGroup
+        targetRepository: swampup2020
+        autoPublishBuildInfo: true
+        integrations:
+          - name: artifactory
+        inputSteps:
+          - name: build_frontend_docker
+        outputResources:
+          - name: docker_framework_build_info
+    - name: xray_scan_frontend_docker
+      type: XrayScan
+      configuration:
+        affinityGroup: fmkGroup
+        failOnScan: false
+        inputSteps:
+          - name: push_frontend_docker
+        inputResources:
+          - name: docker_framework_build_info
+            trigger: false
     - name: gcloud_deploy_frontend
       type: Bash
-      configuration:
+      configuration:   
+        runtime:
+          type: image
+          image:
+            custom:
+              name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+              tag: "latest"
         integrations:
           - name: gcp_login
+          - name: knativeService
       execution:
         onExecute:
         - echo $int_gcp_login_jsonkey > /tmp/json.key
+        - echo $int_knativeService_service > /tmp/knativeService.yaml
         - gcloud auth activate-service-account $int_gcp_login_user --key-file /tmp/json.key
         - | 
           gcloud run deploy bank-frontend \
