@@ -11,8 +11,9 @@ pipelines:
     steps:
     - name: gcloud_deploy_frontend
       type: Bash
-      integrations:
-      - name: gcpsa
+      configuration:
+        integrations:
+          - name: gcpsa
       execution:
         onExecute:
         - auth activate-service-account  jfrog-sa@swampup2021.iam.gserviceaccount.com --key-file=int_gcpsa_jsonKey
