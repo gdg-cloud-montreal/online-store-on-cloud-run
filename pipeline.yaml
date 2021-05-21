@@ -7,6 +7,7 @@ pipelines:
           custom:
             name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
             options: "gcloud"
+            tag: "latest"
     steps:
     - name: gcloud_deploy_frontend
       type: Bash
