@@ -74,6 +74,6 @@ pipelines:
         - gcloud auth activate-service-account $int_gcp_login_user --key-file /tmp/json.key
         - | 
           gcloud run deploy bank-frontend \
-          --image  ${int_server_name_value}.jfrog.io/swampup2020/boutique/frontend:$run_number\
+          --image  ${int_server_name_value}.jfrog.io/boutique/frontend:$run_number\
           --cluster cluster-1 --cluster-location us-central1-c \
           --platform gke --project $int_gcp_login_project
