@@ -32,7 +32,7 @@ pipelines:
       type: DockerPush
       configuration:
         affinityGroup: fmkGroup
-        targetRepository: boutique
+        targetRepository: swampup2020/boutique
         autoPublishBuildInfo: true
         integrations:
           - name: artifactory
