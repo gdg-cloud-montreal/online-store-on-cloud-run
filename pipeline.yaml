@@ -19,7 +19,7 @@ pipelines:
         affinityGroup: fmkGroup
         dockerFileLocation: src/frontend
         dockerFileName: Dockerfile
-        dockerImageName: ${int_server_name_value}.jfrog.io/swampup2020/boutique/frontend
+        dockerImageName: ${int_server_name_value}.jfrog.io/boutique/frontend
         dockerImageTag: ${run_number}
         dockerOptions: --build-arg SERVER_NAME=${int_server_name_value}
         integrations:        
@@ -32,7 +32,7 @@ pipelines:
       type: DockerPush
       configuration:
         affinityGroup: fmkGroup
-        targetRepository: swampup2020/boutique
+        targetRepository: boutique
         autoPublishBuildInfo: true
         integrations:
           - name: artifactory
