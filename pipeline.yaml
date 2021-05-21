@@ -54,6 +54,8 @@ pipelines:
       type: Bash
       configuration:
         affinityGroup: fmkGroup
+        inputSteps:
+          - name:  xray_scan_frontend_docker
         runtime:
           type: image
           image:
