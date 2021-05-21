@@ -1,4 +1,3 @@
-
 pipelines:
   - name: cloud_run_deploy
     configuration:
@@ -14,10 +13,10 @@ pipelines:
       configuration:
         integrations:
           - name: gcp_login
+          - name: container_repo
       execution:
         onExecute:
         - echo $int_gcp_login_jsonkey > /tmp/json.key
         - gcloud auth activate-service-account $int_gcp_login_user --key-file /tmp/json.key
-        - gcloud config set project $int_gcp_login_project
-
+        - gcloud run deploy bank-frontend --image artifactoryanthosdemo-swampup2020.jfrog.io/anthos-bank/frontend:aa936d92 --cluster cluster-1  --cluster-location us-central1-c --platform gke
 
