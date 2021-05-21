@@ -32,7 +32,7 @@ pipelines:
       type: DockerPush
       configuration:
         affinityGroup: fmkGroup
-        targetRepository: boutique
+        targetRepository: boutique/frontend
         autoPublishBuildInfo: true
         integrations:
           - name: artifactory
