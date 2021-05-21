@@ -52,8 +52,8 @@ pipelines:
             trigger: false
     - name: gcloud_deploy_frontend
       type: Bash
-      affinityGroup: fmkGroup
-      configuration:   
+      configuration:
+        affinityGroup: fmkGroup
         runtime:
           type: image
           image:
