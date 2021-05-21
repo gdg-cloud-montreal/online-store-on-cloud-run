@@ -3,7 +3,7 @@ resources:
     type: GitRepo
     configuration:
       gitProvider: Github
-      path: GoogleCloudPlatform/microservices-demo
+      path: gdg-cloud-montreal/microservices-demo
   - name: docker_frontend_build_info
     type: BuildInfo
     configuration:
@@ -32,7 +32,7 @@ pipelines:
       type: DockerPush
       configuration:
         affinityGroup: fmkGroup
-        targetRepository: swampup2020
+        targetRepository: swampup2020/boutique
         autoPublishBuildInfo: true
         integrations:
           - name: artifactory
