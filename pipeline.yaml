@@ -10,6 +10,14 @@ resources:
       sourceArtifactory: artifactory
       buildName: build_and_deploy_cloudrun_pipeline
       buildNumber: ${run_number}
+  - name: frontend_image
+    type: image
+    configuration: 
+      registry: artifactory
+      sourceRepository: docker_local
+      imageName:  ${int_server_name_value}.jfrog.io/docker_local/boutique/frontend
+      imageTag: ${run_number}
+
 pipelines:
   - name: build_and_deploy_cloudrun_pipeline
     steps:
@@ -19,7 +27,7 @@ pipelines:
         affinityGroup: fmkGroup
         dockerFileLocation: src/frontend
         dockerFileName: Dockerfile
-        dockerImageName: ${int_server_name_value}.jfrog.io/boutique/frontend
+        dockerImageName: ${int_server_name_value}.jfrog.io/docker_local/boutique/frontend
         dockerImageTag: ${run_number}
         dockerOptions: --build-arg SERVER_NAME=${int_server_name_value}
         integrations:        
@@ -41,6 +49,13 @@ pipelines:
           - name: build_frontend_docker
         outputResources:
           - name: docker_frontend_build_info
+    - name: publish_frontend_build
+      type: PublishBuildInfo
+      configuration:
+        inputSteps:
+          - name: push_frontend_docker
+        outputResources:
+          - name: dbp_build_info
     - name: xray_scan_frontend_docker
       type: XrayScan
       configuration:
@@ -51,6 +66,16 @@ pipelines:
         inputResources:
           - name: docker_frontend_build_info
             trigger: false
+    - name: promote_dbp_build
+      type: PromoteBuild
+      configuration:
+        targetRepository: swampup2020/boutique
+        integrations:
+          - name: artifactory
+        inputResources:
+          - name: dbp_build_info
+        outputResources:
+          - name: dbp_promoted_build_info
     - name: gcloud_deploy_frontend
       type: Bash
       configuration:
