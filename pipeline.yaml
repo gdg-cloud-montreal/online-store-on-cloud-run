@@ -4,8 +4,14 @@ resources:
     configuration:
       gitProvider: Github
       path: GoogleCloudPlatform/microservices-demo
+  - name: docker_frontend_build_info
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: artifactory
+      buildName: build_and_deploy_cloudrun_pipeline
+      buildNumber: ${run_number}
 pipelines:
-  - name: build_and_deploy_cloudrun
+  - name: build_and_deploy_cloudrun_pipeline
     steps:
     - name: build_frontend_docker
       type: DockerBuild
@@ -33,7 +39,7 @@ pipelines:
         inputSteps:
           - name: build_frontend_docker
         outputResources:
-          - name: docker_framework_build_info
+          - name: docker_frontend_build_info
     - name: xray_scan_frontend_docker
       type: XrayScan
       configuration:
@@ -42,7 +48,7 @@ pipelines:
         inputSteps:
           - name: push_frontend_docker
         inputResources:
-          - name: docker_framework_build_info
+          - name: docker_frontend_build_info
             trigger: false
     - name: gcloud_deploy_frontend
       type: Bash
