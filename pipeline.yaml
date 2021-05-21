@@ -55,7 +55,7 @@ pipelines:
       configuration:
         affinityGroup: fmkGroup
         inputSteps:
-          - name:  xray_scan_frontend_docker
+          - name: push_frontend_docker
         inputResources:
           - name: docker_frontend_build_info
         runtime:
