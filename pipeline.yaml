@@ -112,7 +112,7 @@ pipelines:
           EOF
         - gcloud auth activate-service-account $int_gcp_login_user --key-file /tmp/json.key
         - | 
-          gcloud run services replace /tmp/frontendservice.yaml \
+          gcloud beta run services replace /tmp/frontendservice.yaml \
           --cluster cluster-1 --namespace cloud-run-sandbox --cluster-location us-central1-c \
           --platform gke --project $int_gcp_login_project \
          
