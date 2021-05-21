@@ -1,0 +1,17 @@
+pipelines:
+  - name: cloud_run_deploy
+    configuration:
+      runtime:
+        type: image
+        image:
+          custom:
+            name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+            options: "gcloud"
+    steps:
+    - name: gcloud_deploy_frontend
+      type: Bash
+      integrations:
+      - name: gcpsa
+      execution:
+        onExecute:
+        - auth activate-service-account  jfrog-sa@swampup2021.iam.gserviceaccount.com --key-file=int_gcpsa_jsonKey
