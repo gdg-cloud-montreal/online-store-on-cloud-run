@@ -10,13 +10,6 @@ resources:
       sourceArtifactory: artifactory
       buildName: build_and_deploy_cloudrun_pipeline
       buildNumber: ${run_number}
-  - name: frontend_image
-    type: image
-    configuration: 
-      registry: artifactory
-      sourceRepository: docker_local
-      imageName:  ${int_server_name_value}.jfrog.io/docker_local/boutique/frontend
-      imageTag: ${run_number}
 
 pipelines:
   - name: build_and_deploy_cloudrun_pipeline
@@ -27,7 +20,7 @@ pipelines:
         affinityGroup: fmkGroup
         dockerFileLocation: src/frontend
         dockerFileName: Dockerfile
-        dockerImageName: ${int_server_name_value}.jfrog.io/frontend
+        dockerImageName: ${int_server_name_value}.jfrog.io/boutique/frontend
         dockerImageTag: ${run_number}
         dockerOptions: --build-arg SERVER_NAME=${int_server_name_value}
         integrations:        
@@ -39,7 +32,7 @@ pipelines:
       type: DockerPush
       configuration:
         affinityGroup: fmkGroup
-        targetRepository: docker-local
+        targetRepository: docker-local/boutique
         autoPublishBuildInfo: true
         integrations:
           - name: artifactory
@@ -81,6 +74,6 @@ pipelines:
         - gcloud auth activate-service-account $int_gcp_login_user --key-file /tmp/json.key
         - | 
           gcloud run deploy bank-frontend \
-          --image  ${int_server_name_value}.jfrog.io/boutique/frontend:$run_number\
+          --image  ${int_server_name_value}.jfrog.io/frontend:$run_number\
           --cluster cluster-1 --cluster-location us-central1-c \
           --platform gke --project $int_gcp_login_project
