@@ -43,7 +43,7 @@ pipelines:
         targetRepository: docker_local/boutique
         autoPublishBuildInfo: true
         integrations:
-          - name: artifactory
+          - name: docker
         inputSteps:
           - name: build_frontend_docker
         outputResources:
