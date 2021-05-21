@@ -74,7 +74,16 @@ pipelines:
         - echo $int_knativeService_service > /tmp/knativeService.yaml
         - gcloud auth activate-service-account $int_gcp_login_user --key-file /tmp/json.key
         - | 
-          gcloud run deploy bank-frontend \
+          gcloud run deploy shop-frontend \
           --image  ${int_server_name_value}.jfrog.io/boutique/frontend:${run_number} \
-          --cluster cluster-1 --cluster-location us-central1-c \
-          --platform gke --project $int_gcp_login_project
+          --cluster cluster-1 --namespace cloud-run-sandbox --cluster-location us-central1-c \
+          --platform gke --project $int_gcp_login_project \
+          --set-env-vars "PRODUCT_CATALOG_SERVICE_ADDR=productcatalogservice.cloud-run-sandbox.svc.cluster.local:80" \
+          --set-env-vars "CURRENCY_SERVICE_ADDR=currencyservice.cloud-run-sandbox.svc.cluster.local:80" \
+          --set-env-vars "CART_SERVICE_ADDR=cartservice.cloud-run-sandbox.svc.cluster.local:80" \
+          --set-env-vars "RECOMMENDATION_SERVICE_ADDR=recommendationservice.cloud-run-sandbox.svc.cluster.local:80" \
+          --set-env-vars "SHIPPING_SERVICE_ADDR=shippingservice.cloud-run-sandbox.svc.cluster.local:80" \
+          --set-env-vars "CHECKOUT_SERVICE_ADDR=checkoutservice.cloud-run-sandbox.svc.cluster.local:80" \
+          --set-env-vars "AD_SERVICE_ADDR=adservice.cloud-run-sandbox.svc.cluster.local:80"
+
+        
