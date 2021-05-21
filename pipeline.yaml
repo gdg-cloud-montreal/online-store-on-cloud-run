@@ -44,7 +44,6 @@ pipelines:
         autoPublishBuildInfo: true
         integrations:
           - name: artifactory
-          - name: docker
         inputSteps:
           - name: build_frontend_docker
         outputResources:
