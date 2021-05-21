@@ -2,7 +2,7 @@ resources:
   - name: source_code
     type: GitRepo
     configuration:
-      gitProvider: github
+      gitProvider: Github
       path: GoogleCloudPlatform/microservices-demo
 pipelines:
   - name: build_and_deploy_cloudrun
