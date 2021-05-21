@@ -50,25 +50,26 @@ pipelines:
         inputResources:
           - name: docker_frontend_build_info
             trigger: false
-  - name: gcloud_deploy_frontend
-    type: Bash
-    configuration:   
-      runtime:
-        type: image
-        image:
-          custom:
-            name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
-            tag: "latest"
-      integrations:
-        - name: gcp_login
-        - name: knativeService
-    execution:
-      onExecute:
-      - echo $int_gcp_login_jsonkey > /tmp/json.key
-      - echo $int_knativeService_service > /tmp/knativeService.yaml
-      - gcloud auth activate-service-account $int_gcp_login_user --key-file /tmp/json.key
-      - | 
-        gcloud run deploy bank-frontend \
-        --image artifactoryanthosdemo-swampup2020.jfrog.io/anthos-bank/frontend:aa936d92 \
-        --cluster cluster-1 --cluster-location us-central1-c \
-        --platform gke --project $int_gcp_login_project
+    - name: gcloud_deploy_frontend
+      type: Bash
+      affinityGroup: fmkGroup
+      configuration:   
+        runtime:
+          type: image
+          image:
+            custom:
+              name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+              tag: "latest"
+        integrations:
+          - name: gcp_login
+          - name: knativeService
+      execution:
+        onExecute:
+        - echo $int_gcp_login_jsonkey > /tmp/json.key
+        - echo $int_knativeService_service > /tmp/knativeService.yaml
+        - gcloud auth activate-service-account $int_gcp_login_user --key-file /tmp/json.key
+        - | 
+          gcloud run deploy bank-frontend \
+          --image artifactoryanthosdemo-swampup2020.jfrog.io/anthos-bank/frontend:aa936d92 \
+          --cluster cluster-1 --cluster-location us-central1-c \
+          --platform gke --project $int_gcp_login_project
