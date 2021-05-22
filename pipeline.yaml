@@ -89,19 +89,19 @@ pipelines:
                   #     name: h2c
                   env:
                     - name: PRODUCT_CATALOG_SERVICE_ADDR
-                      value: "productcatalogservice.cloud-run-sandbox.svc.cluster.local:80"
+                      value: "productcatalogservice.default.swampup2021.cloud-montreal.ca:80"
                     - name: CURRENCY_SERVICE_ADDR
-                      value: "currencyservice.cloud-run-sandbox.svc.cluster.local:80"
+                      value: "currencyservice.default.swampup2021.cloud-montreal.ca:80"
                     - name: CART_SERVICE_ADDR
-                      value: "cartservice.cloud-run-sandbox.svc.cluster.local:80"
+                      value: "cartservice.default.swampup2021.cloud-montreal.ca:80"
                     - name: RECOMMENDATION_SERVICE_ADDR
-                      value: "recommendationservice.cloud-run-sandbox.svc.cluster.local:80"
+                      value: "recommendationservice.default.swampup2021.cloud-montreal.ca:80"
                     - name: SHIPPING_SERVICE_ADDR
-                      value: "shippingservice.cloud-run-sandbox.svc.cluster.local:80"
+                      value: "shippingservice.default.swampup2021.cloud-montreal.ca:80"
                     - name: CHECKOUT_SERVICE_ADDR
-                      value: "checkoutservice.cloud-run-sandbox.svc.cluster.local:80"
+                      value: "checkoutservice.default.swampup2021.cloud-montreal.ca:80"
                     - name: AD_SERVICE_ADDR
-                      value: "adservice.cloud-run-sandbox.svc.cluster.local:80"
+                      value: "adservice.default.swampup2021.cloud-montreal.ca:80"
                     # # ENV_PLATFORM: One of: local, gcp, aws, azure, onprem
                     # # When not set, defaults to "local" unless running in GKE, otherwies auto-sets to gcp 
                     - name: ENV_PLATFORM 
@@ -121,6 +121,6 @@ pipelines:
         - gcloud auth activate-service-account $int_gcp_login_user --key-file /tmp/json.key
         - | 
           gcloud beta run services replace /tmp/frontendservice.yaml \
-          --cluster cluster-1 --namespace cloud-run-sandbox --cluster-location us-central1-c \
+          --cluster cluster-1 --cluster-location us-central1-c \
           --platform gke --project $int_gcp_login_project \
          
