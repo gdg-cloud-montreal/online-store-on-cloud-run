@@ -11,7 +11,7 @@ spec:
         autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
-      - image: gcr.io/google-samples/microservices-demo/cartservice:v0.2.1
+      - image: gcr.io/google-samples/microservices-demo/cartservice:v0.2.3
         args: ["-p", "$(PORT)"]
         ports:
           - containerPort: 7070
@@ -19,8 +19,8 @@ spec:
         env:
           - name: REDIS_ADDR
             value: "redis-cart:6379"
-          - name: LISTEN_ADDR
-            value: "0.0.0.0"
+          # - name: LISTEN_ADDR
+          #   value: "0.0.0.0"
         resources:
           requests:
             cpu: 200m
