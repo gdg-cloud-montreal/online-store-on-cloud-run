@@ -9,11 +9,7 @@ spec:
         autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
-<<<<<<< HEAD
       - image: gcr.io/google-samples/microservices-demo/frontend:v0.2.3
-=======
-      - image: gcr.io/google-samples/microservices-demo/frontend:v0.2.1
->>>>>>> 16a045f9f4b70e30b2c28490d14981bc8ceab417
         # ports:
         #   - containerPort: 8080
         #     name: h2c
