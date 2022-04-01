@@ -11,7 +11,7 @@ spec:
         autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
-      - image: gcr.io/google-samples/microservices-demo/checkoutservice:v0.2.3
+      - image: gcr.io/google-samples/microservices-demo/checkoutservice:v0.3.6
         ports:
           - containerPort: 8080
             name: h2c
