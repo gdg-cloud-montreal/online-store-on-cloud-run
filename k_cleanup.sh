@@ -9,5 +9,6 @@ export NAMESPACE=asmdashdemo
 # done
 
 kubectl delete -f redis.yaml -n $NAMESPACE
+kubectl delete -f sa.yaml -n $NAMESPACE
 kubectl delete -f services/ -n $NAMESPACE
 kubectl delete ns $NAMESPACE

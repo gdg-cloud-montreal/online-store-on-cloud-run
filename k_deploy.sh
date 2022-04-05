@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export NAMESPACE=asmdashdemo
+export NAMESPACE=beta
 export REVISION=asm-1125-0
 
 kubectl create ns $NAMESPACE
@@ -8,6 +8,7 @@ kubectl create ns $NAMESPACE
 kubectl label namespace $NAMESPACE istio-injection- istio.io/rev=$REVISION --overwrite
 
 kubectl apply -f redis.yaml -n $NAMESPACE
+kubectl apply -f sa.yaml -n $NAMESPACE
 kubectl apply -f services/ -n $NAMESPACE
 # sleep 10
 
