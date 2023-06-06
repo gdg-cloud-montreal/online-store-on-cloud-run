@@ -11,7 +11,7 @@ spec:
         autoscaling.knative.dev/minScale: "1"
     spec:
       containers:
-      - image: gcr.io/google-samples/microservices-demo/currencyservice:v0.3.6
+      - image: gcr.io/google-samples/microservices-demo/currencyservice:v0.7.0
         ports:
           - containerPort: 7000
             name: h2c
@@ -22,3 +22,6 @@ spec:
           limits:
             cpu: 200m
             memory: 128Mi
+        env:
+        - name: DISABLE_PROFILER
+          value: "1"
